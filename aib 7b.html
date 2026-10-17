@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Galeri Spesial</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .login-container, .gallery-container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .gallery-container {
+            max-width: 800px;
+            display: none;
+        }
+
+        input[type="password"] {
+            width: 80%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .error-msg {
+            color: red;
+            margin-top: 10px;
+            font-size: 14px;
+        }
+
+        /* Styling Galeri & Proteksi Foto */
+        .image-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .image-card {
+            position: relative;
+            overflow: hidden;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .image-card img {
+            width: 100%;
+            height: auto;
+            display: block;
+            pointer-events: none; /* Mencegah interaksi langsung dasar */
+        }
+
+        /* Lapisan pelindung transparan di atas gambar agar tidak bisa di-klik kanan/save */
+        .protector {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 10;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Bagian Login / Password -->
+    <div class="login-container" id="loginBox">
+        <h2>Masukkan Password</h2>
+        <p>Silakan masukkan password untuk melihat galeri.</p>
+        <input type="password" id="passwordInput" placeholder="Password...">
+        <br>
+        <button onclick="checkPassword()">Verifikasi</button>
+        <div class="error-msg" id="errorMsg"></div>
+    </div>
+
+    <!-- Bagian Galeri Foto (Awalnya Disembunyikan) -->
+    <div class="gallery-container" id="galleryBox">
+        <h2>Galeri Foto Berhasil Dibuka</h2>
+        <p>Foto di bawah ini hanya dapat dilihat dan dilindungi agar tidak bisa didownload.</p>
+        
+        <div class="image-grid">
+            <!-- Foto 1 -->
+            <div class="image-card">
+                <div class="protector"></div>
+                <img src="1000103285.jpg" alt="Foto 1">
+            </div>
+            <!-- Foto 2 -->
+            <div class="image-card">
+                <div class="protector"></div>
+                <img src="1000103286.jpg" alt="Foto 2">
+            </div>
+            <!-- Foto 3 -->
+            <div class="image-card">
+                <div class="protector"></div>
+                <img src="1000103287.jpg" alt="Foto 3">
+            </div>
+            <!-- Foto 4 -->
+            <div class="image-card">
+                <div class="protector"></div>
+                <img src="1000103288.jpg" alt="Foto 4">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function checkPassword() {
+            const inputVal = document.getElementById('passwordInput').value;
+            const errorMsg = document.getElementById('errorMsg');
+
+            // Password yang diminta: "aib 7b"
+            if (inputVal === 'aib 7b') {
+                document.getElementById('loginBox').style.display = 'none';
+                document.getElementById('galleryBox').style.display = 'block';
+            } else {
+                errorMsg.textContent = 'Password salah! Coba lagi.';
+            }
+        }
+
+        // Mencegah Klik Kanan di Seluruh Halaman
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+        });
+
+        // Mencegah tombol shortcut save (Ctrl+S / Cmd+S)
+        document.addEventListener('keydown', function(e) {
+            if (e.ctrlKey && (e.key === 's' || e.key === 'S')) {
+                e.preventDefault();
+                alert('Penyimpanan foto dinonaktifkan.');
+            }
+        });
+    </script>
+
+</body>
+</html>
